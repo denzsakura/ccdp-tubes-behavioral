@@ -1,5 +1,5 @@
 export interface Peminjaman {
-  id: number;
+  id?: number;
   idBuku: number;
   idAnggota?: number;
   tglPinjam: string;

@@ -11,6 +11,9 @@ import {
 import Admin from "./Admin.js";
 import Anggota from "./Anggota.js";
 import { addWeeksToDate } from "./utils/date.js";
+import { Peminjaman, PeminjamanList } from "./data/peminjaman.js";
+
+let objectPinjam: Peminjaman | undefined = undefined;
 
 const login = async () => {
   inquirer
@@ -150,17 +153,19 @@ const peminjamanAnggota = async () => {
       },
     ])
     .then((answers) => {
-      const peminjaman = new PeminjamanByAnggotaStrategy({
+      objectPinjam = {
         idBuku: answers.buku_id,
         idAnggota: answers.anggota_id,
         tglPinjam: new Date().toISOString(),
         tglKembali: addWeeksToDate(new Date(), 2).toISOString(),
         status: "Dipinjam",
         bukanAnggota: false,
-      }).addPeminjaman();
+      };
+      pinjamSave(new PeminjamanByAnggotaStrategy(objectPinjam));
+
       console.log(chalk.green("Peminjaman berhasil"));
       console.log(chalk.blue("Detail peminjaman"));
-      console.log(chalk.blue(JSON.stringify(peminjaman)));
+      console.log(chalk.blue(JSON.stringify(PeminjamanList)));
       menu();
     });
 };
@@ -218,23 +223,27 @@ const peminjamanNonAnggota = async () => {
       },
     ])
     .then((answers) => {
-      const peminjaman = new PeminjamanByNonAnggotaStrategy({
+      objectPinjam = {
         idBuku: answers.buku_id,
+        idAnggota: answers.anggota_id,
         tglPinjam: new Date().toISOString(),
-        tglKembali: addWeeksToDate(new Date(), 1).toISOString(),
+        tglKembali: addWeeksToDate(new Date(), 2).toISOString(),
         status: "Dipinjam",
-        bukanAnggota: true,
-        detailPeminjamNonAnggota: {
-          nama: answers.nama,
-          alamat: answers.alamat,
-          telp: answers.no_hp,
-        },
-      }).addPeminjaman();
+        bukanAnggota: false,
+      };
+      pinjamSave(new PeminjamanByNonAnggotaStrategy(objectPinjam));
+
       console.log(chalk.green("Peminjaman berhasil"));
       console.log(chalk.blue("Detail peminjaman"));
-      console.log(chalk.blue(JSON.stringify(peminjaman)));
+      console.log(chalk.blue(JSON.stringify(PeminjamanList)));
       menu();
     });
+};
+
+const pinjamSave = (
+  strategy: PeminjamanByAnggotaStrategy | PeminjamanByNonAnggotaStrategy
+): void => {
+  strategy.addPeminjaman();
 };
 
 (() => {

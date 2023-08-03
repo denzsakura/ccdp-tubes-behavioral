@@ -10,6 +10,7 @@ import {
 } from "./Peminjaman.js";
 import Admin from "./Admin.js";
 import Anggota from "./Anggota.js";
+import { addWeeksToDate } from "./utils/date.js";
 
 const login = async () => {
   inquirer
@@ -149,14 +150,14 @@ const peminjamanAnggota = async () => {
       },
     ])
     .then((answers) => {
-      const peminjaman = new PeminjamanByAnggotaStrategy(
-        answers.buku_id,
-        answers.anggota_id,
-        new Date().toISOString(),
-        new Date().toISOString(),
-        "Dipinjam",
-        false
-      ).addPeminjaman();
+      const peminjaman = new PeminjamanByAnggotaStrategy({
+        idBuku: answers.buku_id,
+        idAnggota: answers.anggota_id,
+        tglPinjam: new Date().toISOString(),
+        tglKembali: addWeeksToDate(new Date(), 2).toISOString(),
+        status: "Dipinjam",
+        bukanAnggota: false,
+      }).addPeminjaman();
       console.log(chalk.green("Peminjaman berhasil"));
       console.log(chalk.blue("Detail peminjaman"));
       console.log(chalk.blue(JSON.stringify(peminjaman)));
@@ -217,18 +218,18 @@ const peminjamanNonAnggota = async () => {
       },
     ])
     .then((answers) => {
-      const peminjaman = new PeminjamanByNonAnggotaStrategy(
-        answers.buku_id,
-        new Date().toISOString(),
-        new Date().toISOString(),
-        "Dipinjam",
-        true,
-        {
+      const peminjaman = new PeminjamanByNonAnggotaStrategy({
+        idBuku: answers.buku_id,
+        tglPinjam: new Date().toISOString(),
+        tglKembali: addWeeksToDate(new Date(), 1).toISOString(),
+        status: "Dipinjam",
+        bukanAnggota: true,
+        detailPeminjamNonAnggota: {
           nama: answers.nama,
           alamat: answers.alamat,
           telp: answers.no_hp,
-        }
-      ).addPeminjaman();
+        },
+      }).addPeminjaman();
       console.log(chalk.green("Peminjaman berhasil"));
       console.log(chalk.blue("Detail peminjaman"));
       console.log(chalk.blue(JSON.stringify(peminjaman)));

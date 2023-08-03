@@ -38,17 +38,17 @@ class PeminjamanByAnggotaStrategy implements PeminjamanByAnggota {
   detailPeminjamNonAnggota?: PeminjamNonAnggota | undefined;
   private peminjamanList: PeminjamanInterface[] = PeminjamanList;
 
-  constructor(
-    idBuku: number,
-    idAnggota: number,
-    tglPinjam: string,
-    tglKembali: string,
-    status: string,
-    bukanAnggota: boolean
-  ) {
+  constructor({
+    idBuku,
+    idAnggota,
+    tglPinjam,
+    tglKembali,
+    status,
+    bukanAnggota,
+  }: PeminjamanInterface) {
     this.id = this.peminjamanList.length + 1;
     this.idBuku = idBuku;
-    this.idAnggota = idAnggota;
+    this.idAnggota = idAnggota!;
     this.tglPinjam = tglPinjam;
     this.tglKembali = tglKembali;
     this.status = status;
@@ -159,21 +159,21 @@ class PeminjamanByNonAnggotaStrategy implements PeminjamanByNonAnggota {
   detailPeminjamNonAnggota: PeminjamNonAnggota;
   private peminjamanList: PeminjamanInterface[] = PeminjamanList;
 
-  constructor(
-    idBuku: number,
-    tglPinjam: string,
-    tglKembali: string,
-    status: string,
-    bukanAnggota: boolean,
-    detailPeminjamNonAnggota: PeminjamNonAnggota
-  ) {
+  constructor({
+    idBuku,
+    tglPinjam,
+    tglKembali,
+    status,
+    bukanAnggota,
+    detailPeminjamNonAnggota,
+  }: PeminjamanInterface) {
     this.id = this.peminjamanList.length + 1;
     this.idBuku = idBuku;
     this.tglPinjam = tglPinjam;
     this.tglKembali = tglKembali;
     this.status = status;
     this.bukanAnggota = bukanAnggota;
-    this.detailPeminjamNonAnggota = detailPeminjamNonAnggota;
+    this.detailPeminjamNonAnggota = detailPeminjamNonAnggota!;
   }
 
   addPeminjaman(): PeminjamanInterface {

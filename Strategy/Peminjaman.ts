@@ -1,3 +1,4 @@
+import { BukuList } from "./data/buku.js";
 import {
   PeminjamanList,
   Peminjaman as PeminjamanInterface,
@@ -69,6 +70,7 @@ class PeminjamanByAnggotaStrategy implements PeminjamanByAnggota {
         : undefined,
     };
     this.peminjamanList.push(peminjaman);
+    BukuList.find((buku) => buku.id === this.idBuku)!.stok--;
     return peminjaman;
   }
 
@@ -187,6 +189,7 @@ class PeminjamanByNonAnggotaStrategy implements PeminjamanByNonAnggota {
       detailPeminjamNonAnggota: this.detailPeminjamNonAnggota,
     };
     this.peminjamanList.push(newPeminjaman);
+    BukuList.find((buku) => buku.id === this.idBuku)!.stok--;
     return newPeminjaman;
   }
 

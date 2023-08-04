@@ -5,7 +5,7 @@
     "lib": ["es2015", "DOM", "es6"],
     "declaration": true,
     "outDir": "build",
-    "rootDir": "./src",
+    "rootDir": "./",
     "strict": true,
     "types": ["node"],
     "esModuleInterop": true,

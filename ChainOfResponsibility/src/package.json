@@ -5,8 +5,8 @@
   "main": "./build/index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon --watch '**/*.ts' --exec 'ts-node' src/index.ts",
-    "start:windows": "nodemon -I --exec \"pnpm ts-node --esm\" src/index.ts",
+    "start": "nodemon --watch '**/*.ts' --exec 'ts-node' index.ts",
+    "start:windows": "nodemon -I --exec \"pnpm ts-node --esm\" index.ts",
     "create": "pnpm run build",
     "build": "tsc -p .",
     "refresh": "rm -rf ./node_modules ./package-lock.json && pnpm install"

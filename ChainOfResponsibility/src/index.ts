@@ -3,13 +3,13 @@
 import inquirer from "inquirer";
 import chalk from "chalk";
 
-import Buku from "./Buku.js";
+import Buku from "./models/Buku.js";
 import {
   PeminjamanByAnggotaStrategy,
   PeminjamanByNonAnggotaStrategy,
-} from "./Peminjaman.js";
-import Admin from "./Admin.js";
-import Anggota from "./Anggota.js";
+} from "./models/Peminjaman.js";
+import Admin from "./models/Admin.js";
+import Anggota from "./models/Anggota.js";
 import { addWeeksToDate } from "./utils/date.js";
 import { Peminjaman, PeminjamanList } from "./data/peminjaman.js";
 

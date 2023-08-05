@@ -12,6 +12,8 @@ import Admin from "./Admin.js";
 import Anggota from "./Anggota.js";
 import { addWeeksToDate } from "./utils/date.js";
 import { Peminjaman, PeminjamanList } from "./data/peminjaman.js";
+import PeminjamanAnggota from "./templates/PeminjamanAnggota.js";
+import PeminjamanNonAnggota from "./templates/PeminjamanNonAnggota.js";
 
 let objectPinjam: Peminjaman | undefined = undefined;
 
@@ -102,6 +104,8 @@ const menu = async () => {
     });
 };
 
+const JENIS_PINJAMAN = ["Anggota", "Non Anggota"];
+
 const peminjaman = async () => {
   inquirer
     .prompt([
@@ -161,7 +165,8 @@ const peminjamanAnggota = async () => {
         status: "Dipinjam",
         bukanAnggota: false,
       };
-      pinjamSave(new PeminjamanByAnggotaStrategy(objectPinjam));
+      const byAnggota = new PeminjamanAnggota(objectPinjam);
+      byAnggota.pinjam();
 
       console.log(chalk.green("Peminjaman berhasil"));
       console.log(chalk.blue("Detail peminjaman"));
@@ -231,19 +236,14 @@ const peminjamanNonAnggota = async () => {
         status: "Dipinjam",
         bukanAnggota: false,
       };
-      pinjamSave(new PeminjamanByNonAnggotaStrategy(objectPinjam));
+      const byNonAnggota = new PeminjamanNonAnggota(objectPinjam);
+      byNonAnggota.pinjam();
 
       console.log(chalk.green("Peminjaman berhasil"));
       console.log(chalk.blue("Detail peminjaman"));
       console.log(chalk.blue(JSON.stringify(PeminjamanList)));
       menu();
     });
-};
-
-const pinjamSave = (
-  strategy: PeminjamanByAnggotaStrategy | PeminjamanByNonAnggotaStrategy
-): void => {
-  strategy.addPeminjaman();
 };
 
 (() => {

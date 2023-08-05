@@ -70,7 +70,10 @@ class PeminjamanByAnggotaStrategy implements PeminjamanByAnggota {
         : undefined,
     };
     this.peminjamanList.push(peminjaman);
-    BukuList.find((buku) => buku.id === this.idBuku)!.stok--;
+    const buku = BukuList.find((buku) => buku.id === this.idBuku);
+    if (buku) {
+      buku.stok--;
+    }
     return peminjaman;
   }
 
@@ -189,7 +192,10 @@ class PeminjamanByNonAnggotaStrategy implements PeminjamanByNonAnggota {
       detailPeminjamNonAnggota: this.detailPeminjamNonAnggota,
     };
     this.peminjamanList.push(newPeminjaman);
-    BukuList.find((buku) => buku.id === this.idBuku)!.stok--;
+    const buku = BukuList.find((buku) => buku.id === this.idBuku);
+    if (buku) {
+      buku.stok--;
+    }
     return newPeminjaman;
   }
 

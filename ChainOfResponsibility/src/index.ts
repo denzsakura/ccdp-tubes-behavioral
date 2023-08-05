@@ -12,7 +12,8 @@ import Admin from "./models/Admin.js";
 import Anggota from "./models/Anggota.js";
 import { addWeeksToDate } from "./utils/date.js";
 import { Peminjaman, PeminjamanList } from "./data/peminjaman.js";
-
+import { PeminjamanAnggota } from "./chains/PeminjamanByAnggota.js";
+import { PeminjamanNonAnggota } from "./chains/PeminjamanByNonAnggota.js";
 let objectPinjam: Peminjaman | undefined = undefined;
 
 const login = async () => {
@@ -161,7 +162,7 @@ const peminjamanAnggota = async () => {
         status: "Dipinjam",
         bukanAnggota: false,
       };
-      pinjamSave(new PeminjamanByAnggotaStrategy(objectPinjam));
+      pinjamSave(objectPinjam);
 
       console.log(chalk.green("Peminjaman berhasil"));
       console.log(chalk.blue("Detail peminjaman"));
@@ -231,7 +232,7 @@ const peminjamanNonAnggota = async () => {
         status: "Dipinjam",
         bukanAnggota: false,
       };
-      pinjamSave(new PeminjamanByNonAnggotaStrategy(objectPinjam));
+      pinjamSave(objectPinjam);
 
       console.log(chalk.green("Peminjaman berhasil"));
       console.log(chalk.blue("Detail peminjaman"));
@@ -239,13 +240,13 @@ const peminjamanNonAnggota = async () => {
       menu();
     });
 };
-
-const pinjamSave = (
-  strategy: PeminjamanByAnggotaStrategy | PeminjamanByNonAnggotaStrategy
-): void => {
-  strategy.addPeminjaman();
+const chainAnggota = new PeminjamanAnggota();
+const chainNonAnggota = new PeminjamanNonAnggota();
+const pinjamSave = (data: Peminjaman): void => {
+  chainAnggota.addPeminjaman(data);
 };
 
 (() => {
+  chainAnggota.setNextChain(chainNonAnggota);
   login();
 })();

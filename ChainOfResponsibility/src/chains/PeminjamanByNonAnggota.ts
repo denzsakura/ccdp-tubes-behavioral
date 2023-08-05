@@ -18,4 +18,4 @@ class PeminjamanNonAnggota implements Chain {
   }
 }
 
-export default PeminjamanNonAnggota;
+export { PeminjamanNonAnggota };

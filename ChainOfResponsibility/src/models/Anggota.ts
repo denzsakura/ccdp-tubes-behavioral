@@ -1,4 +1,4 @@
-import { AnggotaList, Anggota as AnggotaInterface } from "./data/anggota.js";
+import { AnggotaList, Anggota as AnggotaInterface } from "../data/anggota.js";
 
 interface AnggotaManage extends AnggotaInterface {
   login(email: string, pwd: string): AnggotaInterface | undefined;

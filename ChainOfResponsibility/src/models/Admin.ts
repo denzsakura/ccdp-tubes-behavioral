@@ -1,4 +1,4 @@
-import { AdminList, Admin as AdminInterface } from "./data/admin.js";
+import { AdminList, Admin as AdminInterface } from "../data/admin.js";
 
 interface AdminManage extends AdminInterface {
   login(name: string, pwd: string): AdminInterface | undefined;

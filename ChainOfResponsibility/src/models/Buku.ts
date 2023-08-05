@@ -1,4 +1,4 @@
-import { BukuList, Buku as BukuInterface } from "./data/buku.js";
+import { BukuList, Buku as BukuInterface } from "../data/buku.js";
 
 interface BukuManage extends BukuInterface {
   addBuku(

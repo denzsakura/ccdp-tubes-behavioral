@@ -1,9 +1,9 @@
-import { BukuList } from "./data/buku.js";
+import { BukuList } from "../data/buku.js";
 import {
   PeminjamanList,
   Peminjaman as PeminjamanInterface,
   PeminjamNonAnggota,
-} from "./data/peminjaman.js";
+} from "../data/peminjaman.js";
 
 interface PeminjamanByAnggota extends PeminjamanInterface {
   addPeminjaman(

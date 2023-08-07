@@ -10,6 +10,7 @@ interface AdminManage extends AdminInterface {
 }
 
 class Admin implements AdminManage {
+  static AdminList: AdminInterface[] = AdminList;
   id: number;
   name: string;
   pwd: string;
@@ -18,13 +19,6 @@ class Admin implements AdminManage {
     this.name = name;
     this.pwd = pwd;
     this.id = this.login(name, pwd)?.id || 0;
-  }
-
-  login(name: string, pwd: string): AdminInterface | undefined {
-    const admin = Admin.AdminList.find(
-      (admin) => admin.name === name && admin.pwd === pwd
-    );
-    return admin;
   }
 
   addAdmin(name: string, pwd: string): AdminInterface {
@@ -41,14 +35,6 @@ class Admin implements AdminManage {
     return true;
   }
 
-  updateAdmin(id: number, name: string, pwd: string): boolean {
-    const admin = this.getAdmin(id);
-    if (!admin) return false;
-    admin.name = name;
-    admin.pwd = pwd;
-    return true;
-  }
-
   getAdmin(id: number): AdminInterface | undefined {
     const admin = Admin.AdminList.find((admin) => admin.id === id);
     return admin;
@@ -58,7 +44,20 @@ class Admin implements AdminManage {
     return Admin.AdminList;
   }
 
-  static AdminList: AdminInterface[] = AdminList;
+  login(name: string, pwd: string): AdminInterface | undefined {
+    const admin = Admin.AdminList.find(
+      (admin) => admin.name === name && admin.pwd === pwd
+    );
+    return admin;
+  }
+
+  updateAdmin(id: number, name: string, pwd: string): boolean {
+    const admin = this.getAdmin(id);
+    if (!admin) return false;
+    admin.name = name;
+    admin.pwd = pwd;
+    return true;
+  }
 }
 
 export default Admin;

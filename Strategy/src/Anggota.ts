@@ -22,15 +22,19 @@ interface AnggotaManage extends AnggotaInterface {
 }
 
 class Anggota implements AnggotaManage {
-  id: number;
-  nama: string;
-  alamat: string;
-  telp: string;
-  email: string;
-  pwd: string;
-
   static AnggotaList: AnggotaInterface[] = AnggotaList;
 
+  static getAnggotaByName(name: string): AnggotaInterface | undefined {
+    const anggota = Anggota.AnggotaList.find((a) => a.nama === name);
+    return anggota;
+  }
+
+  alamat: string;
+  email: string;
+  id: number;
+  nama: string;
+  pwd: string;
+  telp: string;
   constructor(
     id: number,
     nama: string,
@@ -45,13 +49,6 @@ class Anggota implements AnggotaManage {
     this.telp = telp;
     this.email = email;
     this.pwd = pwd;
-  }
-
-  login(email: string, pwd: string): AnggotaInterface | undefined {
-    const anggota = Anggota.AnggotaList.find(
-      (a) => a.email === email && a.pwd === pwd
-    );
-    return anggota;
   }
 
   addAnggota(
@@ -82,6 +79,22 @@ class Anggota implements AnggotaManage {
     return true;
   }
 
+  getAnggota(id: number): AnggotaInterface | undefined {
+    const anggota = Anggota.AnggotaList.find((a) => a.id === id);
+    return anggota;
+  }
+
+  getAnggotaList(): AnggotaInterface[] {
+    return Anggota.AnggotaList;
+  }
+
+  login(email: string, pwd: string): AnggotaInterface | undefined {
+    const anggota = Anggota.AnggotaList.find(
+      (a) => a.email === email && a.pwd === pwd
+    );
+    return anggota;
+  }
+
   updateAnggota(
     id: number,
     name?: string,
@@ -106,20 +119,6 @@ class Anggota implements AnggotaManage {
       anggota.telp = telp;
     }
     return true;
-  }
-
-  getAnggota(id: number): AnggotaInterface | undefined {
-    const anggota = Anggota.AnggotaList.find((a) => a.id === id);
-    return anggota;
-  }
-
-  static getAnggotaByName(name: string): AnggotaInterface | undefined {
-    const anggota = Anggota.AnggotaList.find((a) => a.nama === name);
-    return anggota;
-  }
-
-  getAnggotaList(): AnggotaInterface[] {
-    return Anggota.AnggotaList;
   }
 }
 

@@ -1,14 +1,7 @@
 import { BukuList, Buku as BukuInterface } from "./data/buku.js";
 
 interface BukuManage extends BukuInterface {
-  addBuku(
-    judul: string,
-    pengarang: string,
-    penerbit: string,
-    tahun: number,
-    stok: number,
-    harga: number
-  ): BukuInterface;
+  addBuku(data: BukuInterface): BukuInterface;
   deleteBuku(id: number): boolean;
   updateBuku(
     id: number,
@@ -24,70 +17,41 @@ interface BukuManage extends BukuInterface {
 }
 
 class Buku implements BukuManage {
+  static BukuList: BukuInterface[] = BukuList;
+  harga: number;
   id: number;
   judul: string;
-  pengarang: string;
   penerbit: string;
-  tahun: number;
+  pengarang: string;
   stok: number;
-  harga: number;
-
-  constructor(
-    id: number,
-    judul: string,
-    pengarang: string,
-    penerbit: string,
-    tahun: number,
-    stok: number,
-    harga: number
-  ) {
-    this.id = id;
-    this.judul = judul;
-    this.pengarang = pengarang;
-    this.penerbit = penerbit;
-    this.tahun = tahun;
-    this.stok = stok;
-    this.harga = harga;
+  tahun: number;
+  constructor() {
+    this.id = BukuList[0].id;
+    this.judul = BukuList[0].judul;
+    this.pengarang = BukuList[0].pengarang;
+    this.penerbit = BukuList[0].penerbit;
+    this.tahun = BukuList[0].tahun;
+    this.stok = BukuList[0].stok;
+    this.harga = BukuList[0].harga;
   }
 
-  static addBuku(
-    judul: string,
-    pengarang: string,
-    penerbit: string,
-    tahun: number,
-    stok: number,
-    harga: number
-  ): BukuInterface {
-    const newBuku = new Buku(
-      BukuList.length + 1,
+  addBuku({
+    judul,
+    pengarang,
+    penerbit,
+    tahun,
+    stok,
+    harga,
+  }: BukuInterface): BukuInterface {
+    const newBuku = {
+      id: BukuList.length + 1,
       judul,
       pengarang,
       penerbit,
       tahun,
       stok,
-      harga
-    );
-    BukuList.push(newBuku);
-    return newBuku;
-  }
-
-  addBuku(
-    judul: string,
-    pengarang: string,
-    penerbit: string,
-    tahun: number,
-    stok: number,
-    harga: number
-  ): BukuInterface {
-    const newBuku = new Buku(
-      BukuList.length + 1,
-      judul,
-      pengarang,
-      penerbit,
-      tahun,
-      stok,
-      harga
-    );
+      harga,
+    };
     BukuList.push(newBuku);
     return newBuku;
   }
@@ -99,6 +63,14 @@ class Buku implements BukuManage {
     }
     BukuList.splice(index, 1);
     return true;
+  }
+
+  getBuku(id: number): BukuInterface | undefined {
+    return BukuList.find((buku) => buku.id === id);
+  }
+
+  getBukuList(): BukuInterface[] {
+    return BukuList;
   }
 
   updateBuku(
@@ -124,14 +96,6 @@ class Buku implements BukuManage {
       harga,
     };
     return true;
-  }
-
-  getBuku(id: number): BukuInterface | undefined {
-    return BukuList.find((buku) => buku.id === id);
-  }
-
-  getBukuList(): BukuInterface[] {
-    return BukuList;
   }
 }
 

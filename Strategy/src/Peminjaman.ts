@@ -29,16 +29,21 @@ interface PeminjamanByAnggota extends PeminjamanInterface {
 }
 
 class PeminjamanByAnggotaStrategy implements PeminjamanByAnggota {
-  id: number;
-  idBuku: number;
-  idAnggota: number;
-  tglPinjam: string;
-  tglKembali: string;
-  status: string;
+  static getPeminjamanListByAnggota(idAnggota: number): PeminjamanInterface[] {
+    return PeminjamanList.filter(
+      (peminjaman) => peminjaman.idAnggota === idAnggota
+    );
+  }
+
+  private peminjamanList: PeminjamanInterface[] = PeminjamanList;
   bukanAnggota: boolean;
   detailPeminjamNonAnggota?: PeminjamNonAnggota | undefined;
-  private peminjamanList: PeminjamanInterface[] = PeminjamanList;
-
+  id: number;
+  idAnggota: number;
+  idBuku: number;
+  status: string;
+  tglKembali: string;
+  tglPinjam: string;
   constructor({
     idBuku,
     idAnggota,
@@ -88,6 +93,14 @@ class PeminjamanByAnggotaStrategy implements PeminjamanByAnggota {
     return true;
   }
 
+  getPeminjaman(id: number): PeminjamanInterface | undefined {
+    return this.peminjamanList.find((peminjaman) => peminjaman.id === id);
+  }
+
+  getPeminjamanList(): PeminjamanInterface[] {
+    return this.peminjamanList;
+  }
+
   updatePeminjaman(
     id: number,
     idBuku: number,
@@ -115,20 +128,6 @@ class PeminjamanByAnggotaStrategy implements PeminjamanByAnggota {
     };
     return true;
   }
-
-  getPeminjaman(id: number): PeminjamanInterface | undefined {
-    return this.peminjamanList.find((peminjaman) => peminjaman.id === id);
-  }
-
-  getPeminjamanList(): PeminjamanInterface[] {
-    return this.peminjamanList;
-  }
-
-  static getPeminjamanListByAnggota(idAnggota: number): PeminjamanInterface[] {
-    return PeminjamanList.filter(
-      (peminjaman) => peminjaman.idAnggota === idAnggota
-    );
-  }
 }
 
 interface PeminjamanByNonAnggota extends PeminjamanInterface {
@@ -155,15 +154,18 @@ interface PeminjamanByNonAnggota extends PeminjamanInterface {
 }
 
 class PeminjamanByNonAnggotaStrategy implements PeminjamanByNonAnggota {
-  id: number;
-  idBuku: number;
-  tglPinjam: string;
-  tglKembali: string;
-  status: string;
+  static getPeminjamanListByNonAnggota(idBuku: number): PeminjamanInterface[] {
+    return PeminjamanList.filter((peminjaman) => peminjaman.idBuku === idBuku);
+  }
+
+  private peminjamanList: PeminjamanInterface[] = PeminjamanList;
   bukanAnggota: boolean;
   detailPeminjamNonAnggota: PeminjamNonAnggota;
-  private peminjamanList: PeminjamanInterface[] = PeminjamanList;
-
+  id: number;
+  idBuku: number;
+  status: string;
+  tglKembali: string;
+  tglPinjam: string;
   constructor({
     idBuku,
     tglPinjam,
@@ -211,6 +213,14 @@ class PeminjamanByNonAnggotaStrategy implements PeminjamanByNonAnggota {
     return true;
   }
 
+  getPeminjaman(id: number): PeminjamanInterface | undefined {
+    return this.peminjamanList.find((peminjaman) => peminjaman.id === id);
+  }
+
+  getPeminjamanList(): PeminjamanInterface[] {
+    return this.peminjamanList;
+  }
+
   updatePeminjaman(
     id: number,
     idBuku: number,
@@ -236,18 +246,6 @@ class PeminjamanByNonAnggotaStrategy implements PeminjamanByNonAnggota {
       detailPeminjamNonAnggota,
     };
     return true;
-  }
-
-  getPeminjaman(id: number): PeminjamanInterface | undefined {
-    return this.peminjamanList.find((peminjaman) => peminjaman.id === id);
-  }
-
-  getPeminjamanList(): PeminjamanInterface[] {
-    return this.peminjamanList;
-  }
-
-  static getPeminjamanListByNonAnggota(idBuku: number): PeminjamanInterface[] {
-    return PeminjamanList.filter((peminjaman) => peminjaman.idBuku === idBuku);
   }
 }
 
